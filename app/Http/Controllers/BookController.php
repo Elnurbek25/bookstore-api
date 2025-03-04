@@ -7,7 +7,7 @@ class BookController extends Controller
 {  
     public function index()
     {
-        $perPage=request()->per_page ?? 1;
+        $perPage=request()->per_page ?? 10;
         $books=Book::paginate( $perPage);
         return response()->json([
             'data'=>BookResource::collection($books),
@@ -28,7 +28,7 @@ class BookController extends Controller
     public function search(BookSearchRequest $request)
     {
     $searchTerm = $request->get('query', '');
-    $perPage = $request->get('per_page', 2);
+    $perPage = $request->get('per_page', 10);
     $books = Book::where('title', 'like', "%$searchTerm%")
         ->orWhere('description', 'like', "%$searchTerm%")
         ->orWhere('price', 'like', "%$searchTerm%")
